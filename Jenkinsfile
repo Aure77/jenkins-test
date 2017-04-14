@@ -7,7 +7,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 mvn 'clean install'
-            },
+            }
             post {
                 always {
                     junit '**/target/*.xml'
