@@ -25,11 +25,12 @@ pipeline {
             }
         }
     }
-}
 
-@NonCPS
-def mvn(String args) {
-    withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
-        sh "mvn --batch-mode ${args}"
+    @NonCPS
+    def mvn(String args) {
+        withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
+            sh "mvn --batch-mode ${args}"
+        }
     }
+
 }
