@@ -24,14 +24,13 @@ pipeline {
                             ]
                         )
                     }
-                    echo 'release1=${userInput["releaseVersion"]}'
                     echo 'release2='+ userInput['releaseVersion']
                 }
             }
         }
         stage("Release") {
             steps {
-                echo 'release=${releaseVersion}'
+                echo 'release=' + userInput['releaseVersion']
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
