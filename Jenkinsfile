@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 echo 'Building..'
                 mvn 'clean install'
@@ -13,19 +13,24 @@ pipeline {
                     junit allowEmptyResults: true, testResults: '**/target/*.xml'
                 }
             }
-        }
+        }*/
         stage("Release confirmation") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     input 'Release project ?'
+                    def releaseVersion = input(
+                        id: 'releaseVersion', message: 'release version', parameters: [
+                            [$class: 'TextParameterDefinition', defaultValue='1.0.0', description: 'release version', name: 'releaseVersion']
+                        ]
+                    )
                 }
             }
         }
         stage("Release") {
             steps {
-                //mvn 'release:prepare'
-                //mvn 'release:perform'
-                echo 'Releasing....'
+                echo 'release=${releaseVersion}'
+               // mvn 'release:prepare'
+               // mvn 'release:perform'
             }
         } 
     }
