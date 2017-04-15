@@ -18,13 +18,14 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        def releaseVersion = input(
-                            id: 'releaseVersion', message: 'release version', parameters: [
+                        def userInput = input(
+                            id: 'userInput', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                             ]
                         )
                     }
-                    echo 'release1=${releaseVersion}'
+                    echo 'release1=${userInput["releaseVersion"]}'
+                    echo 'release2='+ userInput['releaseVersion']
                 }
             }
         }
