@@ -20,7 +20,7 @@ pipeline {
                     input 'Release project ?'
                     def releaseVersion = input(
                         id: 'releaseVersion', message: 'release version', parameters: [
-                            [$class: 'TextParameterDefinition', defaultValue='1.0.0', description: 'release version', name: 'releaseVersion']
+                            [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                         ]
                     )
                 }
