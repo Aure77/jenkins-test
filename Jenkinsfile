@@ -15,14 +15,18 @@ pipeline {
             }
         }
         stage("Release confirmation") {
-            timeout(time: 5, unit: 'MINUTES') {
-                input 'Release project ?'
+            steps: {
+                timeout(time: 5, unit: 'MINUTES') {
+                    input 'Release project ?'
+                }
             }
         }
         stage("Release") {
-            //mvn 'release:prepare'
-            //mvn 'release:perform'
-            echo 'Releasing....'
+            steps: {
+                //mvn 'release:prepare'
+                //mvn 'release:perform'
+                echo 'Releasing....'
+            }
         } 
     }
 }
