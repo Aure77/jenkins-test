@@ -10,7 +10,7 @@ pipeline {
             }
             post {
                 always {
-                    junit '**/target/*.xml'
+                    junit allowEmptyResults: true, testResults: '**/target/*.xml'
                 }
             }
         }
@@ -27,7 +27,6 @@ pipeline {
     }
 }
 
-//@NonCPS
 def mvn(String args) {
     withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
         sh "mvn --batch-mode ${args}"
