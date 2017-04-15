@@ -18,8 +18,8 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        env.userInput = input(
-                            id: 'userInput', message: 'Release project ?', parameters: [
+                        env.releaseVersion = input(
+                            id: 'releaseVersion', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                             ]
                         )
@@ -29,9 +29,8 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo 'release=' + env.userInput['releaseVersion']
-                echo 'release:prepare -DreleaseVersion=env.userInput["releaseVersion"]'
-                echo 'release:perform -DreleaseVersion=${env.userInput["releaseVersion"]}'
+                echo 'release:prepare -DreleaseVersion=${env.releaseVersion}'
+                echo 'release:perform -DreleaseVersion=${env.releaseVersion}'
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
