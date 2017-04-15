@@ -29,7 +29,9 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo 'release=' + env.userInput
+                echo 'release=' + env.userInput['releaseVersion']
+                echo 'release:prepare -DreleaseVersion=env.userInput["releaseVersion"]'
+                echo 'release:perform -DreleaseVersion=${env.userInput["releaseVersion"]}'
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
