@@ -14,18 +14,17 @@ pipeline {
     //             }
     //         }
     //     }
-        def userInput = null;
         stage("Release confirmation") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        userInput = input(
+                        def userInput = input(
                             id: 'userInput', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                             ]
                         )
+                        echo ("Env: "+userInput)
                     }
-                    echo ("Env: "+userInput)
                 }
             }
         }
