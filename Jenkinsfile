@@ -30,7 +30,7 @@ pipeline {
         stage("Release") {
             steps {
                 echo 'release:prepare -DreleaseVersion=$releaseVersion'
-                echo 'release:perform -DreleaseVersion=$releaseVersion'
+                println 'release:perform -DreleaseVersion=${env.releaseVersion}'
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
