@@ -2,18 +2,18 @@
 pipeline {
     agent any
 
-    stages {
-        /*stage('Build') {
-            steps {
-                echo 'Building..'
-                mvn 'clean install'
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: '**/target/*.xml'
-                }
-            }
-        }*/
+    // stages {
+    //     stage('Build') {
+    //         steps {
+    //             echo 'Building..'
+    //             mvn 'clean install'
+    //         }
+    //         post {
+    //             always {
+    //                 junit allowEmptyResults: true, testResults: '**/target/*.xml'
+    //             }
+    //         }
+    //     }
         stage("Release confirmation") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
