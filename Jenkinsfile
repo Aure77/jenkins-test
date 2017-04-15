@@ -30,7 +30,7 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo 'release=' + userInput['releaseVersion']
+                echo 'release='
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
