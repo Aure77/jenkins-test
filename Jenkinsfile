@@ -17,11 +17,14 @@ pipeline {
         stage("Release confirmation") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
-                    def releaseVersion = input(
-                        id: 'releaseVersion', message: 'release version', parameters: [
-                            [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
-                        ]
-                    )
+                    script {
+                        def releaseVersion = input(
+                            id: 'releaseVersion', message: 'release version', parameters: [
+                                [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
+                            ]
+                        )
+                    }
+                    echo 'release1=${releaseVersion}'
                 }
             }
         }
