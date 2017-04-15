@@ -18,19 +18,18 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        def userInput = input(
+                        env.userInput = input(
                             id: 'userInput', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                             ]
                         )
-                        echo ("Env: "+userInput)
                     }
                 }
             }
         }
         stage("Release") {
             steps {
-                echo 'release='
+                echo 'release=' + env.userInput
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
