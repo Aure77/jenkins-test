@@ -29,8 +29,8 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo 'release:prepare -DreleaseVersion=${env.releaseVersion}'
-                echo 'release:perform -DreleaseVersion=${env.releaseVersion}'
+                echo 'release:prepare -DreleaseVersion=${releaseVersion}'
+                echo 'release:perform -DreleaseVersion=${releaseVersion}'
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
