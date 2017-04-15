@@ -15,14 +15,14 @@ pipeline {
             }
         }
         stage("Release confirmation") {
-            steps: {
+            steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     input 'Release project ?'
                 }
             }
         }
         stage("Release") {
-            steps: {
+            steps {
                 //mvn 'release:prepare'
                 //mvn 'release:perform'
                 echo 'Releasing....'
