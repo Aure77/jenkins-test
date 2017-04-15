@@ -24,7 +24,7 @@ pipeline {
                             ]
                         )
                     }
-                    echo 'release2='+ userInput['releaseVersion']
+                    echo ("Env: "+userInput)
                 }
             }
         }
