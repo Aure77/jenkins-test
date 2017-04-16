@@ -8,7 +8,11 @@ pipeline {
             steps {
 //                     mvn 'clean install'
                 script {
-                    env.nextMavenReleaseVersion = nextMavenReleaseVersion()
+                    def pom = readMavenPom file: 'pom.xml'
+                    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
+                    def versionArr = version.split('\\.')
+                    versionArr[-1]++ // increment last digit
+                    env.nextMavenReleaseVersion = versionArr.join('.')
                 }
             }
         }
@@ -44,12 +48,4 @@ def mvn(String args) {
     withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
         sh "mvn -B ${args}"
     }
-}
-
-def nextMavenReleaseVersion() {
-    def pom = readMavenPom file: 'pom.xml'
-    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
-    def versionArr = version.split('\\.')
-    versionArr[-1]++
-    return versionArr.join('.')
 }
