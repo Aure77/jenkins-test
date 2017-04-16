@@ -7,7 +7,9 @@ pipeline {
         stage('Build') {
             steps {
 //                     mvn 'clean install'
-                env.nextMavenReleaseVersion = nextMavenReleaseVersion()
+                script {
+                    env.nextMavenReleaseVersion = nextMavenReleaseVersion()
+                }
             }
         }
         stage("Release confirmation") {
