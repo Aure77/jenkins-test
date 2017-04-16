@@ -12,9 +12,9 @@ pipeline {
                     //def pom = readMavenPom file: 'pom.xml'
                     def pom = 'test'
                     sh "echo 'sh echo=$pom'"
-                    echo 'echo=$pom'
+                    echo "echo=$pom"
                 }
-                sh 'echo "outside echo=$pom"'
+                sh "echo 'outside echo=$pom'"
             }
         }
         stage("Release confirmation") {
