@@ -9,10 +9,8 @@ pipeline {
 //                     mvn 'clean install'
                 script {
                     def pom = readMavenPom file: 'pom.xml'
-                    def version = pom.version
-                    echo "echo=$version"
+                    env.currentBuildVersion = pom.version
                 }
-                echo "echo2=$version"
             }
         }
         stage("Release confirmation") {
@@ -21,7 +19,7 @@ pipeline {
                     script {
                         def releaseVersion = input(
                             id: 'releaseVersion', message: 'Release project ?', parameters: [
-                                [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
+                                [$class: 'TextParameterDefinition', defaultValue: ${env.currentBuildVersion}, description: 'release version', name: 'releaseVersion']
                             ]
                         )
                     }
@@ -30,10 +28,9 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo 'release:prepare -DreleaseVersion=$releaseVersion'
-                println 'release:perform -DreleaseVersion=${env.releaseVersion}'
-               // mvn 'release:prepare'
-               // mvn 'release:perform'
+                echo "release:prepare -DreleaseVersion=${env.currentBuildVersion}"
+               // mvn "release:prepare -DreleaseVersion=${env.currentBuildVersion}"
+               // mvn "release:perform -DreleaseVersion=${env.currentBuildVersion}"
             }
         }
     }
