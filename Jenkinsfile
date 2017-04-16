@@ -9,7 +9,7 @@ pipeline {
 //                     mvn 'clean install'
                 script {
                     def pom = readMavenPom file: 'pom.xml'
-                    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
+                    def version = pom.version.replace("-SNAPSHOT", "")
                     def versionArr = version.split('\\.')
                     versionArr[-1] += 1 // increment last digit
                     env.nextMavenReleaseVersion = versionArr.join('.')
