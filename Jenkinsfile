@@ -8,7 +8,10 @@ pipeline {
             steps {
                 echo 'Building..'
 //                     mvn 'clean install'
-                def version = readMavenPom;
+                script {
+                    def version = readMavenPom;
+                    echo 'InScript=$version'
+                }
                 echo 'Project=$version'
             }
         }
