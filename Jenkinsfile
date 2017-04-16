@@ -9,10 +9,10 @@ pipeline {
                 echo 'Building..'
 //                     mvn 'clean install'
                 script {
-                    def version = readMavenPom;
-                    echo 'InScript=$version'
+                    def pom = readMavenPom file: 'pom.xml'
+                    echo 'InScript=$pom'
                 }
-                echo 'Project=$version'
+                echo 'Project=$pom'
             }
         }
         stage("Release confirmation") {
