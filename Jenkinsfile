@@ -9,7 +9,8 @@ pipeline {
 //                     mvn 'clean install'
                 script {
                     def pom = readMavenPom file: 'pom.xml'
-                    env.currentBuildVersion = pom.version
+                    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
+                    env.currentBuildVersion = version
                 }
             }
         }
