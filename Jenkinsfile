@@ -6,15 +6,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
 //                     mvn 'clean install'
                 script {
-                    //def pom = readMavenPom file: 'pom.xml'
-                    def pom = 'test'
-                    sh "echo 'sh echo=$pom'"
-                    echo "echo=$pom"
+                    def pom = readMavenPom file: 'pom.xml'
+                    def version = pom.version
+                    echo "echo=$version"
                 }
-                sh "echo 'outside echo=$pom'"
+                echo "echo2=$version"
             }
         }
         stage("Release confirmation") {
