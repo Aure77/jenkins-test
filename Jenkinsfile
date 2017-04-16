@@ -7,11 +7,7 @@ pipeline {
         stage('Build') {
             steps {
 //                     mvn 'clean install'
-                script {
-                    def pom = readMavenPom file: 'pom.xml'
-                    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
-                    env.currentBuildVersion = version
-                }
+                env.nextMavenReleaseVersion = nextMavenReleaseVersion()
             }
         }
         stage("Release confirmation") {
@@ -20,7 +16,7 @@ pipeline {
                     script {
                         def releaseVersion = input(
                             id: 'releaseVersion', message: 'Release project ?', parameters: [
-                                [$class: 'TextParameterDefinition', defaultValue: "${env.currentBuildVersion}", description: 'release version', name: 'releaseVersion']
+                                [$class: 'TextParameterDefinition', defaultValue: "${env.nextMavenReleaseVersion}", description: 'release version', name: 'releaseVersion']
                             ]
                         )
                     }
@@ -29,9 +25,9 @@ pipeline {
         }
         stage("Release") {
             steps {
-                echo "release:prepare -DreleaseVersion=${env.currentBuildVersion}"
-               // mvn "release:prepare -DreleaseVersion=${env.currentBuildVersion}"
-               // mvn "release:perform -DreleaseVersion=${env.currentBuildVersion}"
+                echo "release:prepare -DreleaseVersion=${env.nextMavenReleaseVersion}"
+               // mvn "release:prepare -DreleaseVersion=${env.nextMavenReleaseVersion}"
+               // mvn "release:perform -DreleaseVersion=${env.nextMavenReleaseVersion}"
             }
         }
     }
@@ -46,4 +42,12 @@ def mvn(String args) {
     withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
         sh "mvn -B ${args}"
     }
+}
+
+def nextMavenReleaseVersion() {
+    def pom = readMavenPom file: 'pom.xml'
+    def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
+    def versionArr = version.split('\\.')
+    versionArr[-1]++
+    return versionArr.join('.')
 }
