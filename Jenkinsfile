@@ -11,7 +11,7 @@ pipeline {
                     def pom = readMavenPom file: 'pom.xml'
                     def version = pom.version.replace("-SNAPSHOT", "")
                     def versionArr = version.split('\\.')
-                    versionArr[-1] += 1 // increment last digit
+                    versionArr[-1] = Integer.parseInt(versionArr[-1]) + 1 // increment last digit
                     env.nextMavenReleaseVersion = versionArr.join('.')
                 }
             }
