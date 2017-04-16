@@ -8,11 +8,7 @@ pipeline {
             steps {
 //                     mvn 'clean install'
                 script {
-                    def pom = readMavenPom file: 'pom.xml'
-                    def version = pom.version.replace("-SNAPSHOT", "")
-                    def versionArr = version.split('\\.')
-                    versionArr[-1] = Integer.parseInt(versionArr[-1]) + 1 // increment last digit
-                    env.nextMavenReleaseVersion = versionArr.join('.')
+                    env.nextMavenReleaseVersion = nextMavenReleaseVersion()
                 }
             }
         }
@@ -20,7 +16,7 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        def releaseVersion = input(
+                        env.nextMavenReleaseVersion = input(
                             id: 'releaseVersion', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: "${env.nextMavenReleaseVersion}", description: 'release version', name: 'releaseVersion']
                             ]
@@ -48,4 +44,12 @@ def mvn(String args) {
     withMaven(jdk: 'jdk1.8', maven: 'Maven3') {
         sh "mvn -B ${args}"
     }
+}
+
+def nextMavenReleaseVersion() {
+    def pom = readMavenPom file: 'pom.xml'
+    def version = pom.version.replace("-SNAPSHOT", "")
+    def versionArr = version.split('\\.')
+    versionArr[-1] = Integer.parseInt(versionArr[-1]) + 1 // increment last digit
+    return versionArr.join('.')
 }
