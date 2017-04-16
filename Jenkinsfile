@@ -1,24 +1,22 @@
-#!groovy
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
 
     stages {
-    //     stage('Build') {
-    //         steps {
-    //             echo 'Building..'
-    //             mvn 'clean install'
-    //         }
-    //         post {
-    //             always {
-    //                 junit allowEmptyResults: true, testResults: '**/target/*.xml'
-    //             }
-    //         }
-    //     }
+        stage('Build') {
+            steps {
+                echo 'Building..'
+//                     mvn 'clean install'
+                def version = readMavenPom;
+                echo 'Project=$version'
+            }
+        }
         stage("Release confirmation") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
-                        env.releaseVersion = input(
+                        def releaseVersion = input(
                             id: 'releaseVersion', message: 'Release project ?', parameters: [
                                 [$class: 'TextParameterDefinition', defaultValue: '1.0.0', description: 'release version', name: 'releaseVersion']
                             ]
@@ -34,8 +32,13 @@ pipeline {
                // mvn 'release:prepare'
                // mvn 'release:perform'
             }
-        } 
+        }
     }
+     post {
+         always {
+             junit allowEmptyResults: true, testResults: '**/target/*.xml'
+         }
+     }
 }
 
 def mvn(String args) {
