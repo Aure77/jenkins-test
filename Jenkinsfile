@@ -11,7 +11,7 @@ pipeline {
                     def pom = readMavenPom file: 'pom.xml'
                     def version = pom.version.replace("-SNAPSHOT", ".${currentBuild.number}")
                     def versionArr = version.split('\\.')
-                    versionArr[-1] = 2
+                    versionArr[-1]++
                     env.nextMavenReleaseVersion = versionArr.join('.')
                 }
             }
